@@ -8,7 +8,7 @@ stages:
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode --errors --fail-at-end"
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository"
-  JDK_VERSION: "openjdk:21-slim"
+  JDK_VERSION: "openjdk:21-jdk"
 
 # Cache Maven dependencies to speed up subsequent builds
 cache:
