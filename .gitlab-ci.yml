@@ -1,48 +1,14 @@
-# Define stages
-stages:
-  - build
-  - test
-  - package
+image: maven:latest
 
-# Global variables
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode --errors --fail-at-end"
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=.m2/repository"
-  JDK_VERSION: "openjdk:21-jdk"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-# Cache Maven dependencies to speed up subsequent builds
 cache:
   paths:
-    - .m2/repository
+    - .m2/repository/
+    - target/
 
-# Build stage
 build:
   stage: build
-  image: $JDK_VERSION
   script:
-    - echo "Building the application..."
-    - mvn $MAVEN_CLI_OPTS clean compile
-  artifacts:
-    paths:
-      - target/
-    expire_in: 1 day
-
-# Test stage
-test:
-  stage: test
-  image: $JDK_VERSION
-  script:
-    - echo "Running tests..."
-    - mvn $MAVEN_CLI_OPTS test
-
-# Package stage
-package:
-  stage: package
-  image: $JDK_VERSION
-  script:
-    - echo "Packaging the application..."
-    - mvn $MAVEN_CLI_OPTS clean package
-  artifacts:
-    paths:
-      - target/*.jar
-    expire_in: 1 week
+    - mvn compile
